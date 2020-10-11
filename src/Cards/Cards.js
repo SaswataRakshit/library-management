@@ -155,68 +155,6 @@ const CardComponent = (props) => {
                 alert('Oops!!! Something went wrong')
             })
     }
-    //** This function is calling on minus button click in borrow book page */
-    const minusIconClick = () => {
-        setAddClicked(!addClicked)
-
-        instance.get('/borrow.json')
-            .then((response) => {
-                if (response.data.length != 0) {
-                    let updateBookDetails = []
-                    let borrowedArray = response.data
-                    let id = borrowedArray.findIndex(x => x.id == props.allDetails.id)
-
-                    let borrowRemained = remove(borrowedArray, id);
-
-                    let savedBooks = localStorage.getItem('books')
-                    let bookDetails = JSON.parse(savedBooks);
-
-                    let isPresent = containsObject(props.allDetails, bookDetails)
-
-                    instance.put('/borrow.json', borrowRemained)
-                        .then((response) => {
-                            if (response.status == 200) {
-                                if (isPresent) {
-                                    let bookDetailsId = bookDetails.findIndex(x => x.id == props.allDetails.id)
-                                    updateBookDetails = add(bookDetails, bookDetailsId)
-                                    console.log(updateBookDetails)
-                                    instance.put('/books.json', updateBookDetails)
-                                        .then((bookResponse) => {
-                                            if (bookResponse.status == 200) {
-                                                window.location.reload(false);
-                                            }
-                                        })
-                                        .catch((error) => {
-                                            alert('Oops!!! Something went wrong')
-                                        })
-                                }
-                                else {
-                                    props.allDetails.copy = 1
-                                    bookDetails.push(props.allDetails)
-                                    updateBookDetails = bookDetails
-                                    console.log(updateBookDetails)
-                                    instance.put('/books.json', updateBookDetails)
-                                        .then((bookResponse) => {
-                                            if (bookResponse.status == 200) {
-                                                window.location.reload(false);
-                                            }
-                                        })
-                                        .catch((error) => {
-                                            alert('Oops!!! Something went wrong')
-                                        })
-                                }
-                                localStorage.setItem('books', JSON.stringify(updateBookDetails))
-                            }
-                        })
-                        .catch((error) => {
-                            alert('Oops!!! Something went wrong')
-                        })
-                }
-            })
-            .catch((error) => {
-                alert('Oops!!! Something went wrong')
-            })
-    }
 
     function removeFromAvailable(arr, id) {
         let borrowedBook = arr.splice(id, 1)
@@ -227,30 +165,6 @@ const CardComponent = (props) => {
             arr.splice(id, 0, borrowedBook[0])
         }
         return arr;
-    }
-
-    function add(arr, id) {
-        let returnBook = arr.splice(id, 1)
-        const copy = returnBook[0].copy
-        let afterReturningCopy = copy + 1
-        returnBook[0].copy = afterReturningCopy
-        arr.splice(id, 0, returnBook[0])
-        return arr
-    }
-
-    function remove(arr, id) {
-        arr.splice(id, 1)
-        return arr;
-    }
-
-    function containsObject(obj, list) {
-        let i;
-        for (i = 0; i < list.length; i++) {
-            if (list[i].id === obj.id) {
-                return true;
-            }
-        }
-        return false;
     }
 
     return (
@@ -290,7 +204,7 @@ const CardComponent = (props) => {
                 <Card className={classes.borrowedcard}>
                     {!addClicked ?
                         <div className="tooltipMinus">
-                            <FontAwesomeIcon icon={faMinus} className="iconMinus" style={{ float: 'right', marginTop: '10px', cursor: 'pointer' }} onClick={minusIconClick} />
+                            <FontAwesomeIcon icon={faMinus} className="iconMinus" style={{ float: 'right', marginTop: '10px', cursor: 'pointer' }} onClick={() => props.onClick(props.allDetails)} />
                             <span className="tooltipMinustext">Click to return book</span>
                         </div>
                         :

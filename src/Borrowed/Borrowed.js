@@ -33,6 +33,84 @@ class borrowed extends Component {
                 alert('Oops!!! Something went wrong')
             })
     }
+
+    minusClick = (returnBookDetails) => {
+        console.log(returnBookDetails)
+        instance.get('/borrow.json')
+            .then((response) => {
+                if (response.data.length != 0) {
+                    let updateBookDetails = []
+                    let borrowedArray = response.data
+                    let id = borrowedArray.findIndex(x => x.id == returnBookDetails.id)
+
+                    let borrowRemained = this.remove(borrowedArray, id);
+
+                    let savedBooks = localStorage.getItem('books')
+                    let bookDetails = JSON.parse(savedBooks);
+
+                    let isPresent = this.containsObject(returnBookDetails, bookDetails)
+
+                    instance.put('/borrow.json', borrowRemained)
+                        .then((response) => {
+                            this.setState({
+                                borrowedBook: response.data
+                            })
+                            if (isPresent) {
+                                let bookDetailsId = bookDetails.findIndex(x => x.id == returnBookDetails.id)
+                                updateBookDetails = this.add(bookDetails, bookDetailsId)
+                                instance.put('/books.json', updateBookDetails)
+                                    .then((response) => {
+                                        if (response.status == 200) {
+                                            alert("You have returned book: " + returnBookDetails.name + " successfully!!")
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        alert('Oops!!! Something went wrong')
+                                    })
+                            }
+                            else {
+                                returnBookDetails.copy = 1
+                                bookDetails.push(returnBookDetails)
+                                updateBookDetails = bookDetails
+                                instance.put('/books.json', updateBookDetails)
+                                    .then((response) => {
+                                        if (response.status == 200) {
+                                            alert("You have returned book: " + returnBookDetails.name + " successfully!!")
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        alert('Oops!!! Something went wrong')
+                                    })
+                            }
+                        })
+                }
+            })
+    }
+
+    remove = (arr, id) => {
+        arr.splice(id, 1)
+        return arr;
+    }
+
+    containsObject = (obj, list) => {
+        let i;
+        for (i = 0; i < list.length; i++) {
+            if (list[i].id === obj.id) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    add = (arr, id) => {
+        let returnBook = arr.splice(id, 1)
+        const copy = returnBook[0].copy
+        let afterReturningCopy = copy + 1
+        returnBook[0].copy = afterReturningCopy
+        arr.splice(id, 0, returnBook[0])
+        return arr
+    }
+
     render() {
         return (
             <div>
@@ -41,6 +119,7 @@ class borrowed extends Component {
                         borrowed={this.state.borrowedBook}
                         borrowedBook={true}
                         loading={this.state.loading}
+                        click={(returnBookDetails) => this.minusClick(returnBookDetails)}
                     />
                         :
                         <BorrowedCard

@@ -121,6 +121,7 @@ const CollectionCard = (props) => {
                                             data-testid="bookName"
                                             click={false}
                                             img={data.img}
+                                            onClick={props.click}
                                         />
 
                                     )
