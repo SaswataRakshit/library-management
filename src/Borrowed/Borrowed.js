@@ -52,8 +52,15 @@ class borrowed extends Component {
 
                     instance.put('/borrow.json', borrowRemained)
                         .then((response) => {
+                            let updateBorrowList = [...this.state.borrowedBook]
+                            updateBorrowList = response.data
+                            if (updateBorrowList != null) {
+                                updateBorrowList.forEach((data) => {
+                                    data.type = "borrowed"
+                                })
+                            }
                             this.setState({
-                                borrowedBook: response.data
+                                borrowedBook: updateBorrowList
                             })
                             if (isPresent) {
                                 let bookDetailsId = bookDetails.findIndex(x => x.id == returnBookDetails.id)
