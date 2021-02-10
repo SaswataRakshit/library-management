@@ -1,7 +1,10 @@
 import React, { Component } from 'react';
-
+import { connect } from 'react-redux'
+import Grid from '@material-ui/core/Grid';
 import instance from '../instance'
 import CollectionCard from './CollectionCard/CollectionCard'
+import { fetchCollection } from '../Redux/Action'
+import BookDetailsCard from '../BookDetailsCard/BookDetailsCard'
 
 
 //*** This component is for calling books.json document from Firebase DB and passing response to CollectionCard component */
@@ -13,34 +16,33 @@ class collections extends Component {
     }
 
     componentDidMount() {
-        instance.get('/books.json')
-            .then((response) => {
-                let collectionArray = [...this.state.bookCollection];
+        this.props.fetchCollection();
+        // let collectionArray = [...this.state.bookCollection];
 
-                collectionArray = response.data
+        // console.log(this.props)
+        // collectionArray = this.props.books
 
-                if (collectionArray != null) {
-                    collectionArray.forEach((data) => {
-                        data.type = "bookCollection"
-                    })
-                }
+        // if (collectionArray != null) {
+        //     collectionArray.forEach((data) => {
+        //         data.type = "bookCollection"
+        //     })
+        // }
 
-                localStorage.setItem('books', JSON.stringify(response.data))
+        // localStorage.setItem('books', JSON.stringify(this.props.books))
 
-                this.setState({
-                    bookCollection: collectionArray,
-                    loading: false
-                })
-            });
+        // this.setState({
+        //     bookCollection: collectionArray,
+        //     loading: false
+        // })
     }
 
 
     render() {
         return (
             <div>
-                {
-                    this.state.bookCollection != null ? <CollectionCard
-                        books={this.state.bookCollection}
+                {/* {
+                    this.props.books != null ? <CollectionCard
+                        books={this.props.books}
                         booksAvailable={true}
                         loading={this.state.loading}
                     />
@@ -49,10 +51,17 @@ class collections extends Component {
                             booksAvailable={false}
                             loading={this.state.loading}
                         />
-                }
+                } */}
+                <Grid container spacing={2} style={{margin: '20px', width: 'calc(100vw - 70px)'}}>
+                {this.props.books.map(book=><BookDetailsCard key={book.id} bookDetails={book}/>)}
+                </Grid>
             </div>
         )
     }
 }
 
-export default collections;
+const mapStateToProps = (state) => {
+    return { books: state.book }
+}
+
+export default connect(mapStateToProps, { fetchCollection })(collections);

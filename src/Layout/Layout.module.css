@@ -1,8 +1,8 @@
 .heading{
     font-family: 'Roboto', sans-serif;
-    text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
+    margin-left: 10px;
 }
 .tabWrapper {
     border: 0;
@@ -74,4 +74,22 @@
 
     color: inherit;
     opacity: 1;
+}
+
+.listItem{
+    font-family: 'Roboto', sans-serif;
+    color: white;
+    text-decoration: none;
+}
+
+.itemsInCard {
+    background-color: yellow;
+    color: black;
+    border-radius: 20px;
+    height: 14px;
+    width: 14px;
+    margin-right: 55px;
+    margin-top: 5px;
+    font-size: x-small;
+    text-align: center;
 }

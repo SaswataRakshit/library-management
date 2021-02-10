@@ -1,0 +1,84 @@
+{
+    "books" : [ {
+      "author" : "Raven Leilani",
+      "copy" : 1,
+      "desc" : "With Luster, Raven Leilani immediately establishes herself as a novelist capable of so perfectly distilling millennial culture, race and class with both wit and compassion. She creates a central character, the twenty-something New Yorker Edie, that’s living a life at once highly relatable (her city apartment woes will have you nodding with sad recognition) and genuinely unorthodox (she moves in with the wife and child of the man she’s having a fling with). Leilani’s remarkable first novel is sharp and funny and transcendent.",
+      "id" : 0,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1594734066-41Rz5EMu1EL.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "Luster: A Novel",
+      "rating" : 3
+    }, {
+      "author" : "Karla Cornejo Villavicencio",
+      "copy" : 4,
+      "desc" : "Part memoir, part reckoning, Cornejo Villavicencio exposes the reality of life as an undocumented immigrant in six astounding essays. As she travels across the U.S., surveying and chronicling the experiences of immigrants living in New York, Miami, Cleveland, New Haven, and Flint, Cornejo Villavicencio introduces us to the people who perform some of America’s most essential services while unequivocally destroying the right-wing talking points that villainize the undocumented. For all who consider themselves Americans, The Undocumented Americans is an urgent must-read.",
+      "id" : 1,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1589808712-416aHbbXuBL.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "The Undocumented Americans",
+      "rating" : 4
+    }, {
+      "author" : "Michael Arceneaux",
+      "copy" : 4,
+      "desc" : "Born out of his 2018 New York Times op-ed “The Student Loan Serenity Prayer,” Arceneaux’s essay collection comes as unemployment soars and yet another economic crisis has many young people questioning whether they’ll ever experience life without crushing financial anxiety. I Don’t Want to Die Poor, a brilliant successor to his 2018 book I Can’t Date Jesus, explores how student loan debt has impacted every facet of Arceneaux’s life. The seeming impossibility of finding financial stability while pursuing creative passions will resonate in the hearts of so many.",
+      "id" : 2,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1589809352-4132aL1UTiL.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "I Don't Want to Die Poor: Essays",
+      "rating" : 2
+    }, {
+      "author" : "Francesca Momplaisir",
+      "copy" : 10,
+      "desc" : "In Momplaisir’s terrifyingly dark first novel, Lucien leaves Haiti for Queens with his family and settles in a home he calls “My Mother’s House.” As he sinks into depraved evil and tortuous violence against women, the house is watching and waiting. Momplaisir’s brutal exploration of the immigrant experience, gender dynamics, and race is masterful and makes for a stunning debut.",
+      "id" : 3,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1589809811-51LW1hYuseL.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "My Mother's House",
+      "rating" : 5
+    }, {
+      "author" : "Elliot Ackerman",
+      "copy" : 8,
+      "desc" : "A former Marine who served in Iraq and Afghanistan, Ackerman focuses his novels on the effects of international conflict. Red Dress in Black and White spans a single day in Istanbul in which Catherine, an American with a young son, decides to flee her powerful Turkish husband to return to the States with the American photographer she’s fallen in love with. Her husband is unwilling to lose her and calls in powerful favors that cast a light on the shadowy geopolitical forces at work around the world. At once suspenseful and delicate, Red Dress in Black and White deftly depicts love in a brutal time.",
+      "id" : 4,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1589809655-51nFK3-YAL.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "Red Dress in Black and White",
+      "rating" : 3
+    }, {
+      "author" : "N. K. Jemisin",
+      "copy" : 1,
+      "desc" : "Fantasy writer N. K. Jemisin is the only person to have won a Hugo Award (science fiction’s most prestigious prize) three years in a row. In March, the author creates a new world for the first time since 2015. In The City We Became, human avatars of New York’s five boroughs must battle a force of intergalactic evil called the Woman in White to save their city. Like 2018’s Oscar-winning Spider-Man: Into the Spider-Verse, the novel leans into social commentary—the foe presents as a literal white woman whom some mistakenly deem harmless—without slowing the action sequences that drive the plot forward.",
+      "id" : 5,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1583511679-51aTZ37G1rL.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "The City We Became",
+      "rating" : 4
+    }, {
+      "author" : "Sasha Geffen",
+      "copy" : 5,
+      "desc" : "In the twentieth century, the question “Is he musical?” often served as code for “Is he gay?” explains Sasha Geffen in the intro to Glitter Up the Dark, which explores the many ways in which pop music broke the gender binary (while also acknowledging it was never fully intact). From the castrati of mid-sixteenth-century Italy to “Ma” Rainey’s lesbian blues to SoundCloud’s shape-shifting stars, Geffen takes readers on an illuminating journey in lyrical, punkish prose.",
+      "id" : 6,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1589987471-51rmReNlyaL.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "Glitter Up the Dark: How Pop Music Broke the Binary",
+      "rating" : 4
+    }, {
+      "author" : "Stephanie Danler",
+      "copy" : 1,
+      "desc" : "A memoir from the author of the best-selling novel Sweetbitter, Stephanie Danler’s Stray chronicles both her tumultuous childhood as the daughter of two addicts and her adult life after releasing the book that made her famous. Upon returning to her California hometown to care for her newly disabled mother, Danler plunges back into the dynamics of her chaotic youth and becomes embroiled in an affair with a married childhood friend.",
+      "id" : 7,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1589808470-41Jt0tiQv3L.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "Stray: A Memoir",
+      "rating" : 5
+    }, {
+      "author" : "Isabel Wilkerson",
+      "copy" : 9,
+      "desc" : "Almost exactly one decade after releasing The Warmth of Other Suns, her sweeping look at how the Great Migration transformed America, Isabel Wilkerson revolutionizes the way we view race with Caste: The Origins of Our Discontents. Equal parts history, sociology and narrative, Caste makes the argument that American society is a hierarchal culture with resemblance to the caste systems seen in India and Nazi Germany. It proves itself to be as gripping as The Warmth of Other Suns, with Wilkerson once again changing the way we understand America.",
+      "id" : 8,
+      "img" : "https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1597064494-516-Hi5eIhL.jpg?crop=1xw:1xh;center,top&resize=768:*",
+      "name" : "Caste: The Origins of Our Discontents",
+      "rating" : 1
+    }, {
+        "author" : "J.R.R. Tolkien",
+        "copy" : 9,
+        "desc" : "The best-selling fantasy novel series, The Lord of the Rings, has only grown in popularity since it was released, spawning a veritable armada of films, theatre, music, artwork, video games, and even board games.",
+        "id" : 9,
+        "img" : "https://i1.wp.com/bestlifeonline.com/wp-content/uploads/2020/10/Lord-of-the-Rings-cover.jpg?w=798&ssl=1",
+        "name" : "The Lord of the Rings",
+        "rating" : 5
+      } ]
+  }
+  

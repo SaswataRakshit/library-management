@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
 
+import {connect} from 'react-redux'
+
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-
-import { Link, Route } from 'react-router-dom';
-
-import Collections from '../Collections/Collections';
-import Borrowed from '../Borrowed/Borrowed';
 
 import layoutClass from '../Layout/Layout.module.css'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
 
 //*** This Component is for Navigation and Header of the application ***
 class navigationItem extends Component {
@@ -49,18 +48,21 @@ class navigationItem extends Component {
     render() {
         return (
             <div className={this.classes.root}>
-                <h1 data-testid="appHeading" className={layoutClass.heading}>Library Management</h1>
-                <AppBar position="static">
-                    <Toolbar>
-                        <Link data-testid="collectionLink" to="/" className={this.state.isClickedCollections ? layoutClass.tabWrapperSelected : layoutClass.tabWrapper} style={this.tabStyle} onClick={this.homeClickHandler}>Collections</Link>
-                        <Link data-testid="borrowedLink" to="/borrowed" className={this.state.isClickedBorrowed ? layoutClass.tabWrapperSelected : layoutClass.tabWrapper} style={this.tabStyle} onClick={this.borrowedClickHandler}>Borrowed</Link>
-                    </Toolbar>
+                <AppBar position="fixed">
+                    <div style={{display: 'flex'}}>
+                        <h2 data-testid="appHeading" className={layoutClass.heading}>Library Management</h2>
+                        <div style={{ flexGrow: '1' }} />
+                        <FontAwesomeIcon icon={faShoppingCart} className="icon" style={{ cursor: 'pointer', color: 'white', marginRight: '2px', marginTop: '17px' }} />
+                        {this.props.addedItem.length != 0 ? <span className={layoutClass.itemsInCard}>{this.props.addedItem.length}</span> : null}
+                    </div>
                 </AppBar>
-                <Route path="/" exact component={Collections} />
-                <Route path="/borrowed" component={Borrowed} />
             </div>
         );
     }
 }
 
-export default navigationItem;
+const mapStateToProps = (state) => {
+    return {addedItem: state.cartItems}
+}
+
+export default connect(mapStateToProps)(navigationItem);
