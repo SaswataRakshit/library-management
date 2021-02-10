@@ -37,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         paddingTop: '100%'
     },
     title: {
-        margin: '20px 0px 20px 20px'
+        //margin: '20px 0px 20px 20px'
     },
     expand: {
         transform: 'rotate(0deg)',
@@ -58,8 +58,8 @@ const BookDetailsCard = (props) => {
     };
 
     const addCartHandler = (addedBook) => {
-        if(!addClick){
-        props.addToCart(addedBook)
+        if (!addClick) {
+            props.addToCart(addedBook)
         }
         setAddClick(true)
     }
@@ -78,9 +78,9 @@ const BookDetailsCard = (props) => {
                         //   }}
                         />
                     }
-                    title={props.bookDetails.name}
-                    subheader={props.bookDetails.author}
-                    style={{ minHeight: '118px' }}
+                    title={<span style={{ fontSize: 'medium' }}>{props.bookDetails.name}</span>}
+                    subheader={<span style={{ fontSize: 'small' }}>{props.bookDetails.author}</span>}
+                    style={{ minHeight: '88px' }}
                 />
                 <CardMedia
                     className={classes.media}
@@ -95,13 +95,13 @@ const BookDetailsCard = (props) => {
                     }
                     <IconButton style={{ borderRadius: '5px', height: '30px', marginLeft: '5px', marginTop: '5px' }} onClick={() => addCartHandler(props.bookDetails)}>
                         {addClick ?
-                            <span style={{display: 'flex'}}>
+                            <span style={{ display: 'flex' }}>
                                 <img src={addedCart} />
                                 <span style={{ fontSize: '15px', marginTop: '2px' }}>
                                     Added to cart
                             </span>
                             </span> :
-                            <span style={{display: 'flex'}}>
+                            <span style={{ display: 'flex' }}>
                                 <img src={addCart} />
                                 <span style={{ fontSize: '15px', marginTop: '2px' }}>
                                     Add to cart

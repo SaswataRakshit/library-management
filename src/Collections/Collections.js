@@ -39,7 +39,7 @@ class collections extends Component {
 
     render() {
         return (
-            <div>
+            <div style={{ width: 'calc(100vw - 90px)' }}>
                 {/* {
                     this.props.books != null ? <CollectionCard
                         books={this.props.books}
@@ -52,8 +52,8 @@ class collections extends Component {
                             loading={this.state.loading}
                         />
                 } */}
-                <Grid container spacing={2} style={{margin: '20px', width: 'calc(100vw - 70px)'}}>
-                {this.props.books.map(book=><BookDetailsCard key={book.id} bookDetails={book}/>)}
+                <Grid container spacing={2} style={{ margin: '20px', width: 'calc(100vw - 100px)' }}>
+                    {this.props.books.map(book => <BookDetailsCard key={book.id} bookDetails={book} />)}
                 </Grid>
             </div>
         )

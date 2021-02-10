@@ -5,7 +5,7 @@ import {
   Switch,
   Route,
   Link
-}  from 'react-router-dom';
+} from 'react-router-dom';
 
 import './App.css';
 import Appbar from './Layout/Appbar'
@@ -19,17 +19,17 @@ class App extends Component {
     return (
       <Router>
         <Appbar />
-        <Navbar/>
+        <Navbar />
         <Switch>
-        <Route exact path="/">
-          <div style={{position: 'absolute', marginLeft: '50px'}}>
-          <Collections />
-          </div>
-        </Route>
-        <Route exact path="/borrowed">
-          <Borrowed />
-        </Route>
-      </Switch>
+          <Route exact path="/">
+            <div style={{ position: 'absolute', marginLeft: '50px', width: 'calc(100vw - 90px)' }}>
+              <Collections />
+            </div>
+          </Route>
+          <Route exact path="/borrowed">
+            <Borrowed />
+          </Route>
+        </Switch>
       </Router>
     );
   }
