@@ -15,3 +15,10 @@ export const addToCart = (addedItem) => {
         payload: addedItem
     }
 }
+
+export const removeFromCart = (removeItem) => {
+    return {
+        type: 'REMOVE_CART',
+        payload: removeItem
+    }
+}

@@ -20,8 +20,8 @@ import Grid from '@material-ui/core/Grid';
 import Tooltip from '@material-ui/core/Tooltip';
 import Chip from '@material-ui/core/Chip';
 import Rating from '@material-ui/lab/Rating';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCartPlus } from '@fortawesome/free-solid-svg-icons';
+import Snackbar from '@material-ui/core/Snackbar';
+import MuiAlert from '@material-ui/lab/Alert';
 
 import addCart from '../Asset/addCart.svg'
 import addedCart from '../Asset/addedCart.svg'
@@ -48,21 +48,43 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+}
+
 const BookDetailsCard = (props) => {
     const [addClick, setAddClick] = React.useState(false)
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
+    const [open, setOpen] = React.useState(false);
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
     };
 
     const addCartHandler = (addedBook) => {
-        if (!addClick) {
-            props.addToCart(addedBook)
+        if (props.addedBook.length > 3) {
+            handleClick()
         }
-        setAddClick(true)
+        else {
+            if (!addClick) {
+                props.addToCart(addedBook)
+            }
+            setAddClick(true)
+        }
     }
+
+    const handleClick = () => {
+        setOpen(true);
+    };
+
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setOpen(false);
+    };
 
     return (
         <Grid item lg={4}>
@@ -131,8 +153,22 @@ const BookDetailsCard = (props) => {
                     </CardContent>
                 </Collapse>
             </Card>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}
+            anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+              }}
+              >
+                <Alert onClose={handleClose} severity="error">
+                    User can add maximum 4 items in cart
+        </Alert>
+            </Snackbar>
         </Grid>
     )
 }
 
-export default connect(null, { addToCart })(BookDetailsCard);
+const mapStateToProp = (state) => {
+    return { addedBook: state.cartItems }
+}
+
+export default connect(mapStateToProp, { addToCart })(BookDetailsCard);

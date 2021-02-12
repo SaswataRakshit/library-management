@@ -84,13 +84,19 @@
 }
 
 .itemsInCard {
-    background-color: yellow;
+    background-color: #ffff31;
     color: black;
     border-radius: 20px;
     height: 14px;
     width: 14px;
-    margin-right: 55px;
+    margin-right: 30px;
     margin-top: 5px;
     font-size: x-small;
     text-align: center;
+}
+
+.trashIcon{
+    color: #cf352e;
+    width: 12px;
+    height: 12px
 }
