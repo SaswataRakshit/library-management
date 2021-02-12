@@ -48,11 +48,11 @@ const NavigationItem = (props) => {
     };
 
     const trashIconClick = (bookName) => {
-        if(props.addedItem.length == 1){
+        if (props.addedItem.length == 1) {
             props.removeFromCart(bookName)
             handleClose()
         }
-        else{
+        else {
             props.removeFromCart(bookName)
         }
     }
@@ -98,7 +98,7 @@ const NavigationItem = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    return { addedItem: state.cartItems }
+    return { addedItem: state.cartItems.addedItems }
 }
 
 export default connect(mapStateToProps, { removeFromCart })(NavigationItem);

@@ -112,7 +112,7 @@ const Navbar = () => {
             <Divider />
             <List>
                 <ListItem button>
-                    <ListItemIcon><FontAwesomeIcon icon={faBook} className="icon" style={{ cursor: 'pointer', color: 'white' }} /></ListItemIcon>
+                    <ListItemIcon><FontAwesomeIcon icon={faBook} className="icon" style={{ cursor: 'pointer', color: '#909090' }} /></ListItemIcon>
                     <ListItemText primary={<Link data-testid="collectionLink" to="/" className={layoutClass.listItem}>Collections</Link>} style={{ marginLeft: '-15px' }} />
                 </ListItem>
             </List>
@@ -121,7 +121,7 @@ const Navbar = () => {
 
             <List>
                 <ListItem button>
-                    <ListItemIcon><FontAwesomeIcon icon={faBookOpen} className="icon" style={{ cursor: 'pointer', color: 'white' }} /></ListItemIcon>
+                    <ListItemIcon><FontAwesomeIcon icon={faBookOpen} className="icon" style={{ cursor: 'pointer', color: '#909090' }} /></ListItemIcon>
                     <ListItemText primary={<Link data-testid="borrowedLink" to="/borrowed" className={layoutClass.listItem}>Borrowed</Link>} style={{ marginLeft: '-15px' }} />
                 </ListItem>
             </List>
