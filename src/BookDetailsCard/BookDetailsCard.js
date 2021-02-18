@@ -64,7 +64,6 @@ const BookDetailsCard = (props) => {
     };
 
     const addCartHandler = (addedBook) => {
-        console.log(props.addedItems.filter(el => el.name == addedBook.name))
         if (props.addedItems.filter(el => el.name == addedBook.name).length != 0) {
             handleClick()
             setShowRepeatError(true)

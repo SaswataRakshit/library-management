@@ -22,3 +22,26 @@ export const removeFromCart = (removeItem) => {
         payload: removeItem
     }
 }
+
+export const filterData = (value) => {
+    return {
+        type: 'FILTER_DATA',
+        payload: value
+    }
+}
+
+export const clearFilterAction = (oldState) => {
+    return {
+        type: 'CLEAR_FILTER',
+        payload: oldState
+    }
+}
+
+export const borrowBooks = (afterBorrowBookList) => async (dispatch) => {
+    const response = await instance.put('/books.json', afterBorrowBookList)
+    dispatch({
+        type: 'BORROW_SUCCESS',
+        payload: response.data,
+        status: response.status
+    })
+}

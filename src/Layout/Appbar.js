@@ -12,7 +12,7 @@ import { faShoppingCart, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 import { IconButton } from '@material-ui/core';
 
 import layoutClass from '../Layout/Layout.module.css'
-import { removeFromCart } from '../Redux/Action'
+import { removeFromCart, borrowBooks } from '../Redux/Action'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -57,6 +57,22 @@ const NavigationItem = (props) => {
         }
     }
 
+    const checkoutHandler = () => {
+        props.addedItem.forEach(el=> el.copy = el.copy - 1)
+        props.addedItem.forEach(el => changeCopy(el.id, el.copy))
+        props.borrowBooks(props.books)
+        props.addedItem.forEach(el => props.removeFromCart(el.name))
+        handleClose()
+    }
+
+    const changeCopy = (id, copy) => {
+        props.books.forEach(i=>{
+            if(i.id == id){
+                i.copy = copy
+            }
+        })
+    }
+
     return (
         <div className={classes.root}>
             <AppBar position="fixed">
@@ -64,7 +80,7 @@ const NavigationItem = (props) => {
                     <h2 data-testid="appHeading" className={layoutClass.heading}>Library Management</h2>
                     <div style={{ flexGrow: '1' }} />
                     <FontAwesomeIcon icon={faShoppingCart}
-                        style={props.addedItem.length != 0 ? { marginRight: '2px', marginTop: '12px', cursor: 'pointer', color: 'white' } : { marginRight: '30px', marginTop: '12px', cursor: 'pointer', color: 'white' }}
+                        style={props.addedItem.length != 0 ? { marginRight: '2px', marginTop: '12px', cursor: 'pointer', color: 'white' } : { marginRight: '30px', marginTop: '12px', cursor: 'no-drop', color: 'white' }}
                         onClick={handleClick}
                     />
                     {props.addedItem.length != 0 ? <span className={layoutClass.itemsInCard}>{props.addedItem.length}</span> : null}
@@ -90,7 +106,7 @@ const NavigationItem = (props) => {
                             </IconButton>
                         </div>
                     )}
-                    <Button variant="contained" style={{ marginTop: '10px', backgroundColor: '#ffe135', width: '100%', borderRadius: '0px' }}>Checkout</Button>
+                    <Button variant="contained" style={{ marginTop: '10px', backgroundColor: '#ffe135', width: '100%', borderRadius: '0px' }} onClick={checkoutHandler}>Checkout</Button>
                 </Menu>
             </AppBar>
         </div>
@@ -98,7 +114,7 @@ const NavigationItem = (props) => {
 }
 
 const mapStateToProps = (state) => {
-    return { addedItem: state.cartItems.addedItems }
+    return { addedItem: state.cartItems.addedItems, books: state.book.bookCollection }
 }
 
-export default connect(mapStateToProps, { removeFromCart })(NavigationItem);
+export default connect(mapStateToProps, { removeFromCart, borrowBooks })(NavigationItem);
