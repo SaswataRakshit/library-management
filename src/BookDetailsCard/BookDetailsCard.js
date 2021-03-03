@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 
 import { connect } from 'react-redux'
-import { addToCart } from '../Redux/Action'
+import { addToCart, clearFilterAction } from '../Redux/Action'
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -77,6 +77,7 @@ const BookDetailsCard = (props) => {
             setAddClick(true)
             setShowRepeatError(false)
         }
+        props.clearFilterAction(props.books)
     }
 
     const handleClick = () => {
@@ -170,7 +171,8 @@ const BookDetailsCard = (props) => {
 }
 
 const mapStateToProp = (state) => {
-    return { addedItems: state.cartItems.addedItems, lastTimeUpdate: state.cartItems.lastTimeUpdate }
+    console.log(state)
+    return { addedItems: state.cartItems.addedItems, lastTimeUpdate: state.cartItems.lastTimeUpdate, books: state.book.bookCollection }
 }
 
-export default connect(mapStateToProp, { addToCart })(BookDetailsCard);
+export default connect(mapStateToProp, { addToCart, clearFilterAction })(BookDetailsCard);
