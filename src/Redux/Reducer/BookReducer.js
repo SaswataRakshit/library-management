@@ -1,5 +1,6 @@
 const initialState = {
     bookCollection: [],
+    filterBookCollection: [],
     lastSync: null,
     status: null
 }
@@ -15,7 +16,7 @@ export const bookReducer = (state = initialState, action) => {
         case 'FILTER_DATA':
             return {
                 ...state,
-                bookCollection: state.bookCollection.filter(el => {
+                filterBookCollection: state.bookCollection.filter(el => {
                     if (el.name == action.payload) {
                         return true
                     }
@@ -25,7 +26,8 @@ export const bookReducer = (state = initialState, action) => {
         case 'CLEAR_FILTER':
             return {
                 ...state,
-                bookCollection: action.payload
+                bookCollection: action.payload,
+                filterBookCollection: []
             }
         case 'BORROW_SUCCESS':
             return {

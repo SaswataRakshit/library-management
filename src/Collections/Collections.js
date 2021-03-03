@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 
 import Grid from '@material-ui/core/Grid';
@@ -187,7 +187,11 @@ class Collections extends Component {
                     <Divider style={{ marginTop: '12px' }} />
                 </Paper>
                 <Grid container spacing={2} style={{ margin: '20px', width: 'calc(100vw - 100px)', marginTop: '80px' }}>
-                    {this.props.books.map(book => <BookDetailsCard key={book.id} bookDetails={book} />)}
+                    {this.props.filterBooks.length == 0 ? 
+                    <Fragment>{this.props.books.map(book => <BookDetailsCard key={book.id} bookDetails={book} />)}</Fragment>
+                :
+                <Fragment>{this.props.filterBooks.map(book => <BookDetailsCard key={book.id} bookDetails={book} />)}</Fragment>
+                }
                 </Grid>
                 <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}
                 anchorOrigin={{
@@ -211,7 +215,8 @@ class Collections extends Component {
 }
 
 const mapStateToProps = (state) => {
-    return { books: state.book.bookCollection, lastSync: state.book.lastSync, status: state.book.status }
+    console.log("collection --->", state)
+    return { books: state.book.bookCollection, filterBooks: state.book.filterBookCollection, lastSync: state.book.lastSync, status: state.book.status }
 }
 
 export default connect(mapStateToProps, { fetchCollection, filterData, clearFilterAction })(Collections);
