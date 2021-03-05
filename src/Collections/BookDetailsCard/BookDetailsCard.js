@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 
 import { connect } from 'react-redux'
-import { addToCart, clearFilterAction } from '../Redux/Action'
+import { addToCart, clearFilterAction } from '../../Redux/Action'
 
 import clsx from 'clsx';
 import { makeStyles } from '@material-ui/core/styles';
@@ -22,8 +22,8 @@ import Rating from '@material-ui/lab/Rating';
 import Snackbar from '@material-ui/core/Snackbar';
 import MuiAlert from '@material-ui/lab/Alert';
 
-import addCart from '../Asset/addCart.svg'
-import addedCart from '../Asset/addedCart.svg'
+import addCart from '../../Asset/addCart.svg'
+import addedCart from '../../Asset/addedCart.svg'
 import './BookDetailsCard.css'
 
 const useStyles = makeStyles((theme) => ({
@@ -58,6 +58,7 @@ const BookDetailsCard = (props) => {
     const [expanded, setExpanded] = useState(false);
     const [open, setOpen] = useState(false);
     const [showRepeatError, setShowRepeatError] = useState(false)
+    const [borrowedBookError, setBorrowedBookError] = useState(false)
 
     const handleExpandClick = () => {
         setExpanded(!expanded);
@@ -71,6 +72,11 @@ const BookDetailsCard = (props) => {
         else if (props.addedItems.length > 3) {
             handleClick()
             setShowRepeatError(false)
+        }
+        else if (props.borrowedBooks.filter(el => el.name == addedBook.name).length != 0) {
+            handleClick()
+            setShowRepeatError(true)
+            setBorrowedBookError(true)
         }
         else {
             props.addToCart(addedBook)
@@ -157,9 +163,17 @@ const BookDetailsCard = (props) => {
                 }}
             >
                 {showRepeatError ?
-                    <Alert onClose={handleClose} severity="error">
-                        User cannot add same item twice in cart
-                    </Alert>
+                    <Fragment>
+                        {borrowedBookError ?
+                            <Alert onClose={handleClose} severity="error">
+                                User has already borrowed the same book
+                            </Alert>
+                            :
+                            <Alert onClose={handleClose} severity="error">
+                                User cannot add same item twice in cart
+                            </Alert>
+                        }
+                    </Fragment>
                     :
                     <Alert onClose={handleClose} severity="error">
                         User can add maximum 4 items in cart
@@ -171,8 +185,12 @@ const BookDetailsCard = (props) => {
 }
 
 const mapStateToProp = (state) => {
-    console.log(state)
-    return { addedItems: state.cartItems.addedItems, lastTimeUpdate: state.cartItems.lastTimeUpdate, books: state.book.bookCollection }
+    return {
+        addedItems: state.cartItems.addedItems,
+        lastTimeUpdate: state.cartItems.lastTimeUpdate,
+        books: state.book.bookCollection,
+        borrowedBooks: state.book.borrowedBook
+    }
 }
 
 export default connect(mapStateToProp, { addToCart, clearFilterAction })(BookDetailsCard);

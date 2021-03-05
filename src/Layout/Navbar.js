@@ -113,7 +113,7 @@ const Navbar = () => {
             <List>
                 <ListItem button>
                     <ListItemIcon><FontAwesomeIcon icon={faBook} className="icon" style={{ cursor: 'pointer', color: '#909090' }} /></ListItemIcon>
-                    <ListItemText primary={<Link data-testid="collectionLink" to="/" className={layoutClass.listItem}>Collections</Link>} style={{ marginLeft: '-15px' }} />
+                    <ListItemText primary={<Link data-testid="collectionLink" to="/collection" className={layoutClass.listItem}>Collections</Link>} style={{ marginLeft: '-15px' }} />
                 </ListItem>
             </List>
 

@@ -60,7 +60,7 @@ const NavigationItem = (props) => {
     const checkoutHandler = () => {
         props.addedItem.forEach(el=> el.copy = el.copy - 1)
         props.addedItem.forEach(el => changeCopy(el.id, el.copy))
-        props.borrowBooks(props.books)
+        props.borrowBooks(props.books, props.addedItem)
         props.addedItem.forEach(el => props.removeFromCart(el.name))
         handleClose()
     }
