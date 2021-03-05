@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link
+  Redirect
 } from 'react-router-dom';
 
 import './App.css';
@@ -21,13 +21,16 @@ class App extends Component {
         <Appbar />
         <Navbar />
         <Switch>
-          <Route exact path="/">
+          <Route path="/collection">
             <div style={{ position: 'absolute', marginLeft: '50px', width: 'calc(100vw - 90px)' }}>
               <Collections />
             </div>
           </Route>
-          <Route exact path="/borrowed">
+          <Route path="/borrowed">
             <Borrowed />
+          </Route>
+          <Route exact path="/">
+            <Redirect to="/collection" />
           </Route>
         </Switch>
       </Router>

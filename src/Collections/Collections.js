@@ -2,7 +2,6 @@ import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 
 import Grid from '@material-ui/core/Grid';
-import BookDetailsCard from '../BookDetailsCard/BookDetailsCard'
 import Paper from '@material-ui/core/Paper';
 import { Divider, IconButton } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
@@ -15,6 +14,7 @@ import MuiAlert from '@material-ui/lab/Alert';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFilter, faTimes } from '@fortawesome/free-solid-svg-icons';
 
+import BookDetailsCard from './BookDetailsCard/BookDetailsCard'
 import './Collections.css'
 import { fetchCollection, filterData, clearFilterAction } from '../Redux/Action'
 
@@ -44,7 +44,7 @@ class Collections extends Component {
             this.setState({
                 bookCollection: this.props.books
             })
-            if(this.props.status == 200) {
+            if (this.props.status == 200) {
                 this.setState({
                     open: true
                 })
@@ -187,35 +187,34 @@ class Collections extends Component {
                     <Divider style={{ marginTop: '12px' }} />
                 </Paper>
                 <Grid container spacing={2} style={{ margin: '20px', width: 'calc(100vw - 100px)', marginTop: '80px' }}>
-                    {this.props.filterBooks.length == 0 ? 
-                    <Fragment>{this.props.books.map(book => <BookDetailsCard key={book.id} bookDetails={book} />)}</Fragment>
-                :
-                <Fragment>{this.props.filterBooks.map(book => <BookDetailsCard key={book.id} bookDetails={book} />)}</Fragment>
-                }
+                    {this.props.filterBooks.length == 0 ?
+                        <Fragment>{this.props.books.map(book => book.copy != 0 ? <BookDetailsCard key={book.id} bookDetails={book} /> : null)}</Fragment>
+                        :
+                        <Fragment>{this.props.filterBooks.map(book => book.copy != 0 ? <BookDetailsCard key={book.id} bookDetails={book} /> : null)}</Fragment>
+                    }
                 </Grid>
                 <Snackbar open={this.state.open} autoHideDuration={6000} onClose={this.handleClose}
-                anchorOrigin={{
-                    vertical: 'bottom',
-                    horizontal: 'right',
-                }}
-            >
-                {this.props.status == 200 ?
-                    <Alert onClose={this.handleClose} severity="success">
-                        You have borrowed book successfully
+                    anchorOrigin={{
+                        vertical: 'bottom',
+                        horizontal: 'right',
+                    }}
+                >
+                    {this.props.status == 200 ?
+                        <Alert onClose={this.handleClose} severity="success">
+                            You have borrowed book successfully
                     </Alert>
-                    :
-                    <Alert onClose={this.handleClose} severity="error">
-                        Oops! Something went wrong
+                        :
+                        <Alert onClose={this.handleClose} severity="error">
+                            Oops! Something went wrong
                     </Alert>
-                }
-            </Snackbar>
+                    }
+                </Snackbar>
             </div>
         )
     }
 }
 
 const mapStateToProps = (state) => {
-    console.log("collection --->", state)
     return { books: state.book.bookCollection, filterBooks: state.book.filterBookCollection, lastSync: state.book.lastSync, status: state.book.status }
 }
 

@@ -1,142 +1,23 @@
-import React, { Component } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 
-import instance from '../instance'
-import BorrowedCard from './BorrowedCard/BorrowedCard'
+import { borrowedCollection } from '../Redux/Action'
 
-//*** This component is for calling borrow.json document from Firebase DB and passing response to BorrowedCard component */
+const Borrowed = (props) => {
+    const dispatch = useDispatch();
+    const state = useSelector(state => state.borrowed)
 
-class borrowed extends Component {
-    state = {
-        borrowedBook: [],
-        loading: true
-    }
+    console.log(state)
 
-    componentDidMount() {
-        instance.get('/borrow.json')
-            .then((response) => {
-                let borrowedArray = [...this.state.borrowedBook];
+    useEffect(() => {
+        dispatch(borrowedCollection())
+    }, [])
 
-                borrowedArray = response.data
-
-                if (borrowedArray != null) {
-                    borrowedArray.forEach((data) => {
-                        data.type = "borrowed"
-                    })
-                }
-
-                this.setState({
-                    borrowedBook: borrowedArray,
-                    loading: false
-                })
-            })
-            .catch((error) => {
-                alert('Oops!!! Something went wrong')
-            })
-    }
-
-    minusClick = (returnBookDetails) => {
-        console.log(returnBookDetails)
-        instance.get('/borrow.json')
-            .then((response) => {
-                if (response.data.length != 0) {
-                    let updateBookDetails = []
-                    let borrowedArray = response.data
-                    let id = borrowedArray.findIndex(x => x.id == returnBookDetails.id)
-
-                    let borrowRemained = this.remove(borrowedArray, id);
-
-                    let savedBooks = localStorage.getItem('books')
-                    let bookDetails = JSON.parse(savedBooks);
-
-                    let isPresent = this.containsObject(returnBookDetails, bookDetails)
-
-                    instance.put('/borrow.json', borrowRemained)
-                        .then((response) => {
-                            let updateBorrowList = [...this.state.borrowedBook]
-                            updateBorrowList = response.data
-                            if (updateBorrowList != null) {
-                                updateBorrowList.forEach((data) => {
-                                    data.type = "borrowed"
-                                })
-                            }
-                            this.setState({
-                                borrowedBook: updateBorrowList
-                            })
-                            if (isPresent) {
-                                let bookDetailsId = bookDetails.findIndex(x => x.id == returnBookDetails.id)
-                                updateBookDetails = this.add(bookDetails, bookDetailsId)
-                                instance.put('/books.json', updateBookDetails)
-                                    .then((response) => {
-                                        if (response.status == 200) {
-                                            alert("You have returned book: " + returnBookDetails.name + " successfully!!")
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        alert('Oops!!! Something went wrong')
-                                    })
-                            }
-                            else {
-                                returnBookDetails.copy = 1
-                                bookDetails.push(returnBookDetails)
-                                updateBookDetails = bookDetails
-                                instance.put('/books.json', updateBookDetails)
-                                    .then((response) => {
-                                        if (response.status == 200) {
-                                            alert("You have returned book: " + returnBookDetails.name + " successfully!!")
-                                        }
-                                    })
-                                    .catch((error) => {
-                                        alert('Oops!!! Something went wrong')
-                                    })
-                            }
-                        })
-                }
-            })
-    }
-
-    remove = (arr, id) => {
-        arr.splice(id, 1)
-        return arr;
-    }
-
-    containsObject = (obj, list) => {
-        let i;
-        for (i = 0; i < list.length; i++) {
-            if (list[i].id === obj.id) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    add = (arr, id) => {
-        let returnBook = arr.splice(id, 1)
-        const copy = returnBook[0].copy
-        let afterReturningCopy = copy + 1
-        returnBook[0].copy = afterReturningCopy
-        arr.splice(id, 0, returnBook[0])
-        return arr
-    }
-
-    render() {
-        return (
-            <div>
-                {
-                    this.state.borrowedBook != null ? <BorrowedCard
-                        borrowed={this.state.borrowedBook}
-                        borrowedBook={true}
-                        loading={this.state.loading}
-                        click={(returnBookDetails) => this.minusClick(returnBookDetails)}
-                    />
-                        :
-                        <BorrowedCard
-                            borrowedBook={false}
-                            loading={this.state.loading}
-                        />
-                }
-            </div>
-        )
-    }
+    return (
+        <div>
+            Borrowed Work
+        </div>
+    )
 }
 
-export default borrowed;
+export default Borrowed;

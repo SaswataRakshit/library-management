@@ -1,6 +1,7 @@
 const initialState = {
     bookCollection: [],
     filterBookCollection: [],
+    borrowedBook: [],
     lastSync: null,
     status: null
 }
@@ -10,7 +11,8 @@ export const bookReducer = (state = initialState, action) => {
         case 'FETCH_COLLECTION':
             return {
                 ...state,
-                bookCollection: action.payload,
+                bookCollection: action.availableBook,
+                borrowedBook: action.borrowedBook,
                 lastSync: new Date()
             }
         case 'FILTER_DATA':
