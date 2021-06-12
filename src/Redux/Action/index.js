@@ -1,12 +1,25 @@
+import axios from 'axios'
 import instance from '../../instance'
+
+const fetchBorrowed = () => async dispatch => {
+    const response = await instance.get('./borrow.json');
+
+    return response;
+}
+
+const fetchBook = () => async dispatch => {
+    const response = await instance.get('/books.json')
+
+    return response;
+}
 
 export const fetchCollection = () => async dispatch => {
     const borrowedBookresponse = await dispatch(fetchBorrowed())
-    const response = await instance.get('/books.json')
+    const availableBookResponse = await dispatch(fetchBook())
 
     dispatch({
         type: 'FETCH_COLLECTION',
-        availableBook: response.data,
+        availableBook: availableBookResponse.data,
         borrowedBook: borrowedBookresponse.data
     })
 }
@@ -51,17 +64,17 @@ export const borrowBooks = (afterBorrowBookList, addedBookList) => async (dispat
     }
 }
 
-export const addToBorrowList = (borrowedBookList) => async dispatch => {
+export const addToBorrowList = (borrowedBookList) => async (dispatch, getState) => {
     let addToBorrowListResponse = ''
-    const response = await dispatch(fetchBorrowed())
-    if(response.data != null){
-    const previousBorrowedBook = response.data
-    const newBorrowedList = [...previousBorrowedBook]
-    borrowedBookList.forEach(el=> newBorrowedList.push(el))
-    console.log(newBorrowedList)
-    addToBorrowListResponse = await instance.put('./borrow.json', newBorrowedList)
+    let borrowedBook = getState().book.borrowedBook
+    if (borrowedBook.length != 0) {
+        const previousBorrowedBook = borrowedBook
+        const newBorrowedList = [...previousBorrowedBook]
+        borrowedBookList.forEach(el => newBorrowedList.push(el))
+        console.log(newBorrowedList)
+        addToBorrowListResponse = await instance.put('./borrow.json', newBorrowedList)
     }
-    else{
+    else {
         addToBorrowListResponse = await instance.put('./borrow.json', borrowedBookList)
     }
 
@@ -69,18 +82,24 @@ export const addToBorrowList = (borrowedBookList) => async dispatch => {
     return addToBorrowListResponse.status
 }
 
-const fetchBorrowed = () => async dispatch => {
-    const response = await instance.get('./borrow.json');
-
-    return response;
-}
-
 export const borrowedCollection = () => async dispatch => {
-    console.log("************")
-    const response = await dispatch(fetchBorrowed())
-
+    const borrowedBookresponse = await dispatch(fetchBorrowed())
+    const availableBookResponse = await dispatch(fetchBook())
     dispatch({
         type: 'GET_BORROWED',
-        payload: response.data
+        borrowedBook: borrowedBookresponse.data,
+        availableBook: availableBookResponse.data
+    })
+}
+
+export const returnBook = (updateBorrowed, updateAvailableBook, bookName) => async dispatch => {
+    const borrowedResponse = await instance.put('./borrow.json', updateBorrowed)
+    const availableBookResponse = await instance.put('/books.json', updateAvailableBook)
+
+    dispatch({
+        type: 'RETURN_BOOK',
+        borrowedPayload: borrowedResponse.data,
+        status: availableBookResponse.status,
+        returnBookName: bookName
     })
 }

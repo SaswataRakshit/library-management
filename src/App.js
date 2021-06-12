@@ -27,7 +27,9 @@ class App extends Component {
             </div>
           </Route>
           <Route path="/borrowed">
-            <Borrowed />
+            <div style={{ position: 'absolute', marginLeft: '50px', width: 'calc(100vw - 90px)' }}>
+              <Borrowed />
+            </div>
           </Route>
           <Route exact path="/">
             <Redirect to="/collection" />

@@ -1,140 +1,116 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
 
-import { withStyles } from '@material-ui/core/styles';
-import MuiAccordion from '@material-ui/core/Accordion';
-import MuiAccordionSummary from '@material-ui/core/AccordionSummary';
-import MuiAccordionDetails from '@material-ui/core/AccordionDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
-import Grid from '@material-ui/core/Grid'
+import { Card, CardActions, CardHeader, CardMedia, Grid, IconButton, makeStyles, Snackbar } from '@material-ui/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUndoAlt } from '@fortawesome/free-solid-svg-icons';
+import read from '../../Asset/read.svg'
+import { returnBook } from '../../Redux/Action'
+import MuiAlert from '@material-ui/lab/Alert';
 
-import loading from '../../Asset/32.gif'
-import Cards from '../../Cards/Cards'
+function Alert(props) {
+    return <MuiAlert elevation={6} variant="filled" {...props} />;
+  }
 
-import './BorrowedCard.css'
-
-//** This Component is for basic layout of the borrowed Book page. Also it is passing props to Cards component*/
-
-const Accordion = withStyles({
+const useStyles = makeStyles((theme) => ({
     root: {
-        border: '0px solid rgb(227, 227, 228) ',
-        borderRadius: '10px',
-        width: '99%',
-        marginRight: '10%',
-        fontFamily: 'Roboto',
-        background: 'rgb(247, 247, 247)',
-    }
-
-})(MuiAccordion);
-
-const AccordionSummary = withStyles({
-    root: {
-        background: 'rgb(247, 247, 247)',
-        border: '1px rgb(221, 221, 221)',
-        borderRadius: '10px',
-        paddingLeft: '5px',
-        fontFamily: 'Roboto',
-        '&$expanded': {
-            minHeight: 56,
-
-        },
-        height: '53px',
-        width: '90%',
-        textAlign: 'auto'
+        maxHeight: 20,
+        whiteSpace: 'nowrap',
+        textOverflow: 'ellipsis'
     },
-
-    expandIcon: {
-        order: -1,
-        transform: 'rotate(270deg)',
-        color: 'black',
-        "&$expanded": {
-            transform: "rotate(360deg)"
-        }
+    img: {
+        height: 220,
+        paddingTop: '100%'
     },
-
-    content: {
-        '&$expanded': {
-            margin: '0',
-
-        },
+    expand: {
+        transform: 'rotate(0deg)',
+        marginLeft: 'auto',
+        transition: theme.transitions.create('transform', {
+            duration: theme.transitions.duration.shortest,
+        }),
     },
-    expanded: {},
-})(MuiAccordionSummary);
-
-const AccordionDetails = withStyles((theme) => ({
-    root: {
-        background: 'rgb(247, 247, 247)',
-        borderRadius: '10px',
-        border: '0px solid rgb(221, 221, 221)',
-        height: 'auto',
-        width: '90%',
-
-
-    }
-}))(MuiAccordionDetails);
-
+}));
 
 const CollectionCard = (props) => {
-    const loadImgStyle = {
-        marginLeft: '700px',
-        height: '100px',
-        width: '120px',
-        marginTop: '20px'
-    }
-    const loadingStyle = {
-        marginLeft: '720px',
-        marginTop: '0px'
-    }
+    const classes = useStyles()
+    const dispatch = useDispatch();
+    const state = useSelector(state => state.borrowedBook)
+    const [open, setOpen] = useState(false);
 
-    const [expanded, setExpanded] = React.useState(false);
+    useEffect(() => {
+        if (state.status != null) {
+            handleClick()
+        }
+    }, [state.lastSync])
 
-    const handleChange = (panel) => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
+    const handleClick = () => {
+        setOpen(true);
     };
 
-    return (
-        < div >
-            {props.loading ?
-                <div><img src={loading} alt="Loading" style={loadImgStyle}></img>
-                    <p data-testid="loading" style={loadingStyle}>Loading...</p></div>
-                :
-                <div>
-                    {props.borrowedBook == true ?
-                        <Accordion expanded onChange={handleChange('panel1')} style={{ marginTop: '40px', left: '40px', width: '95%' }}>
-                            <AccordionSummary
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                expandIcon={<ExpandMoreIcon />}
-                            >
-                                <span>
-                                    <label data-testid="cardHeading" className="accordianHeading"> BORROWED BOOKS </label>
-                                </span>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Grid container spacing={2} style={{ marginLeft: '30px', marginTop: '6px' }}>
-                                    {props.borrowed.map((data, index) =>
-                                        <Cards
-                                            key={index}
-                                            name={data.name}
-                                            author={data.author}
-                                            allDetails={data}
-                                            display={data.type}
-                                            data-testid="bookName"
-                                            click={false}
-                                            img={data.img}
-                                            onClick={props.click}
-                                        />
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpen(false);
+    };
 
-                                    )
-                                    }
-                                </Grid>
-                            </AccordionDetails>
-                        </Accordion>
-                        :
-                        <h3 style={{ marginLeft: '40px', color: 'red' }}>You haven't borrowed any book!!!</h3>
-                    }
-                </div>
-            }
-        </div >
+    const cardDetails = (
+        <Grid container spacing={0}>
+            <Grid item lg={2} sm={1} xs={1}>
+                <img src={props.bookDetails.img} style={{ width: '60px', height: '120px' }} />
+            </Grid>
+            <Grid item lg={8} sm={6} xs={6}>
+                <span>{props.bookDetails.name}</span>
+                <p className="authorName">{props.bookDetails.author}</p>
+            </Grid>
+        </Grid>
+    )
+
+    const returnBookHandler = (bookName) => {
+        let availableBook = [...state.availableBook]
+        let afterReturnBookCollection = state.borrowed.filter(el => el.name != bookName)
+        let changeAvailableBook = availableBook.filter(el => el.name == bookName)
+        changeAvailableBook.forEach(el => {
+            el.copy = el.copy + 1;
+            availableBook[el.id] = el
+        })
+        dispatch(returnBook(afterReturnBookCollection, availableBook, bookName))
+    }
+    return (
+        <Grid item lg={4}>
+            <Card style={{ width: '100%' }}>
+                <CardHeader
+                    title={cardDetails}
+                    style={{ minHeight: '88px', paddingBottom: '0px' }}
+                />
+                <CardActions disableSpacing style={{ paddingTop: '0px', float: 'right' }}>
+                    <IconButton style={{ borderRadius: '5px' }} onClick={() => returnBookHandler(props.bookDetails.name)}>
+                        <FontAwesomeIcon icon={faUndoAlt} className="icon" style={{ cursor: 'pointer', color: '#909090', height: '12px', width: '12px' }} />
+                        <span style={{ fontSize: '14px', paddingLeft: '5px' }}>Return Book</span>
+                    </IconButton>
+                    <IconButton style={{ borderRadius: '5px' }}>
+                        <img src={read} />
+                        <span style={{ fontSize: '14px', paddingLeft: '5px' }}>Read Book</span>
+                    </IconButton>
+                </CardActions>
+            </Card>
+            <Snackbar open={open} autoHideDuration={6000} onClose={handleClose}
+                anchorOrigin={{
+                    vertical: 'bottom',
+                    horizontal: 'right',
+                }}
+            >
+                {state.status == 200 ?
+                    <Alert onClose={handleClose} severity="success">
+                        Successfully Returned Book : {state.returnBookName}
+                    </Alert>
+                    :
+                    <Alert onClose={handleClose} severity="error">
+                        Oops! Something went wrong!
+                    </Alert>
+                }
+            </Snackbar>
+        </Grid>
     )
 }
 

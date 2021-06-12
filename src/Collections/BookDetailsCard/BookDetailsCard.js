@@ -36,9 +36,6 @@ const useStyles = makeStyles((theme) => ({
         height: 220,
         paddingTop: '100%'
     },
-    title: {
-        //margin: '20px 0px 20px 20px'
-    },
     expand: {
         transform: 'rotate(0deg)',
         marginLeft: 'auto',
@@ -102,7 +99,6 @@ const BookDetailsCard = (props) => {
         <Grid item lg={4}>
             <Card style={{ width: '100%' }}>
                 <CardHeader
-                    className={classes.title}
                     action={
                         <Rating
                             name="simple-controlled"

@@ -13,6 +13,7 @@ export const bookReducer = (state = initialState, action) => {
                 ...state,
                 bookCollection: action.availableBook,
                 borrowedBook: action.borrowedBook,
+                status: null,
                 lastSync: new Date()
             }
         case 'FILTER_DATA':

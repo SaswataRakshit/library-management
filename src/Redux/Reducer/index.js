@@ -6,5 +6,5 @@ import { borrowedReducer} from './BorrowedReducer'
 export default combineReducers({
     book: bookReducer,
     cartItems: cartReducer,
-    borrowed: borrowedReducer
+    borrowedBook: borrowedReducer
 })
